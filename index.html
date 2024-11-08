@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dummy API Testing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CRUD Operations with Dummy API</h1>
+    <div id="form-container">
+      <input type="text" id="user-name" placeholder="Enter Name">
+      <input type="text" id="user-address" placeholder="Enter Address">
+      <input type="number" id="user-number" placeholder="Enter Number">
+      <button onclick="createUser()">Create</button>
+      <button onclick="getUser()">Read</button>
+      <button onclick="updateUser()">Update</button>
+      <button onclick="deleteUser()">Delete</button>
+      <button onclick="showAllUsers()">Show All Users</button>
+    </div>
+    <div id="output"></div>
+    <div id="data-container">
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">×</span>
+      <h2>All Users</h2>
+      <div id="modal-data-container">
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
