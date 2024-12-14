@@ -1,4 +1,4 @@
-const apiEndpoint = 'https://672ddbc7fd8979715643fec4.mockapi.io/api/desktop/coffeeshop';
+const apiEndpoint = 'http://localhost:3000/users';
 
 async function createUser() {
   const name = document.getElementById('user-name').value;
