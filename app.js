@@ -9,6 +9,9 @@ const app = express();
 const PORT = 3000;
 const mongoURI = 'mongodb://localhost:27017/users';
 
+app.set('view engine', 'ejs');
+app.set('views' , 'views');
+
 // Middleware
 app.use(express.json());
 app.use(cors());
@@ -46,7 +49,6 @@ app.get('/destroy-session-cookie', (req, res) => {
     });
 });
 
-// Admin check middleware
 // app.use((req, res, next) => {
 //     if (req.query.isAdmin) {
 //         next();

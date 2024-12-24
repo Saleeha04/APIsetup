@@ -1,16 +1,71 @@
 const express = require('express');
 const User = require('./model');
+const UserAuth = require('./user');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
-// Middleware to check for sessions
 router.use((req, res, next) => {
     if (!req.session.viewCount) {
-        req.session.viewCount = 0; // Initialize viewCount in the session
+        req.session.viewCount = 0;
     }
-    req.session.viewCount++; // Increment view count for every request
+    req.session.viewCount++;
     console.log(`View count: ${req.session.viewCount}`);
     next();
 });
+
+router.use(express.urlencoded({
+    extended: true
+}))
+
+router.get('/secret', (req, res) => {
+    if (!req.session.user_id) {
+        res.redirect('/login');
+    }
+    else {
+        res.render('secret');
+    }
+});
+
+router.get('/', (req, res) => {
+    res.send('This is the home page');
+});
+
+router.get('/register', (req, res) => {
+    res.render('register');
+});
+
+router.post('/register', async (req, res) => {
+    const { username , password } = req.body;
+    const hash = await bcrypt.hash(password, 12);
+    const user = new UserAuth({
+        username, password: hash
+    });
+    await user.save();
+    req.session.user_id = user._id;
+    res.redirect('/');
+});
+
+router.get('/login', (req , res) => {
+    res.render('login');
+})
+
+router.post('/login',async (req , res) => {
+    const {username, password } = req.body;
+    const user = await UserAuth.findOne({username});
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (validPassword) {
+        req.session.user_id = user._id;
+        res.redirect('/secret');
+    }
+    else {
+        res.redirect('/login');
+    }
+});
+
+router.post('/logout', (req, res) => {
+    req.session.user_id = null;
+    res.redirect('/');
+})
 
 router.post('/users', async (req, res) => {
     try {
